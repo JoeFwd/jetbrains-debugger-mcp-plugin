@@ -4,6 +4,7 @@ description: >-
   Guide for using JetBrains IDE Debugger MCP tools to programmatically debug applications.
   TRIGGER when ANY of these MCP tools are available: list_run_configurations, execute_run_configuration,
   start_debug_session, stop_debug_session, get_debug_session_status, list_debug_sessions,
+  list_local_processes, attach_debugger_to_process,
   set_breakpoint, remove_breakpoint, list_breakpoints, resume_execution, pause_execution,
   step_over, step_into, step_out, run_to_line, wait_for_pause, get_stack_trace, select_stack_frame,
   list_threads, get_variables, set_variable, get_source_context, evaluate_expression.

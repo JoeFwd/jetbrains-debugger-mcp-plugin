@@ -30,6 +30,8 @@ IMPORTANT: When debugging, prefer using jetbrains-debugger MCP tools to interact
 | `start_debug_session` | Start a new debug session |
 | `stop_debug_session` | Stop a debug session |
 | `get_debug_session_status` | Get comprehensive session state (variables, stack, source) |
+| `list_local_processes` | List running local processes the debugger can attach to |
+| `attach_debugger_to_process` | Attach the debugger to an already-running local process by PID |
 
 ### Breakpoints
 | Tool | Description |

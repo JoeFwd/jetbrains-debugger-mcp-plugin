@@ -117,7 +117,7 @@ class ToolRegistryTest {
     fun `registerBuiltInTools registers all expected tools`() {
         registry.registerBuiltInTools()
 
-        assertTrue("Should have at least 20 tools", registry.getToolCount() >= 20)
+        assertTrue("Should have at least 22 tools", registry.getToolCount() >= 22)
 
         // Verify key tools are registered
         assertNotNull("list_run_configurations should be registered", registry.getTool("list_run_configurations"))
@@ -154,10 +154,10 @@ class ToolRegistryTest {
     }
 
     @Test
-    fun `registerBuiltInTools registers exactly 23 tools`() {
+    fun `registerBuiltInTools registers exactly 25 tools`() {
         registry.registerBuiltInTools()
 
-        assertEquals(23, registry.getToolCount())
+        assertEquals(25, registry.getToolCount())
     }
 
     @Test
@@ -168,11 +168,13 @@ class ToolRegistryTest {
         assertNotNull(registry.getTool("list_run_configurations"))
         assertNotNull(registry.getTool("execute_run_configuration"))
 
-        // Debug Session Tools (4)
+        // Debug Session Tools (6)
         assertNotNull(registry.getTool("list_debug_sessions"))
         assertNotNull(registry.getTool("start_debug_session"))
         assertNotNull(registry.getTool("stop_debug_session"))
         assertNotNull(registry.getTool("get_debug_session_status"))
+        assertNotNull(registry.getTool("list_local_processes"))
+        assertNotNull(registry.getTool("attach_debugger_to_process"))
 
         // Breakpoint Tools (3)
         assertNotNull(registry.getTool("list_breakpoints"))

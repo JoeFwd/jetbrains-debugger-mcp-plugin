@@ -15,8 +15,10 @@ import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.execution.WaitFor
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.navigation.GetSourceContextTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.runconfig.ListRunConfigurationsTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.runconfig.RunConfigurationTool
+import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.AttachDebuggerToProcessTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.GetDebugSessionStatusTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.ListDebugSessionsTool
+import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.ListLocalProcessesTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.StartDebugSessionTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.StopDebugSessionTool
 import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.stack.GetStackTraceTool
@@ -63,6 +65,8 @@ class ToolRegistry {
         register(StartDebugSessionTool())
         register(StopDebugSessionTool())
         register(GetDebugSessionStatusTool())
+        register(ListLocalProcessesTool())
+        register(AttachDebuggerToProcessTool())
 
         // Breakpoint Tools (P0)
         register(ListBreakpointsTool())

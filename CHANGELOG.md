@@ -4,6 +4,12 @@
 
 ## [Unreleased]
 
+## [4.3.0] - 2026-05-16
+
+### Added
+- **`list_local_processes` tool** - Lists running local processes the IDE debugger can attach to, returning PID, executable name, command line, and available debugger types per process.
+- **`attach_debugger_to_process` tool** - Attaches the IDE debugger to an already-running local process by PID using JetBrains' built-in attach infrastructure (`XAttachDebuggerProvider`). Accepts an optional `debugger_type` when multiple language backends are available. Waits up to 30 seconds for the new debug session to initialize and returns its session ID.
+
 ## [4.2.0] - 2026-04-02
 
 ### Added

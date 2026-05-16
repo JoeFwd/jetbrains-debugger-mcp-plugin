@@ -1,5 +1,8 @@
 package com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.models
 
+import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.AttachDebuggerToProcessResult
+import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.AttachableProcessInfo
+import com.github.hechtcarmel.jetbrainsdebuggermcpplugin.tools.session.ListLocalProcessesResult
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert.*
@@ -229,6 +232,75 @@ class ToolModelsTest {
 
         assertTrue(encoded.contains("\"name\":\"Main\""))
         assertTrue(encoded.contains("\"canDebug\":true"))
+    }
+
+    // Attach to Process Models Tests
+
+    @Test
+    fun `AttachableProcessInfo serialization`() {
+        val info = AttachableProcessInfo(
+            pid = 1234L,
+            executableName = "java",
+            commandLine = "java -jar app.jar",
+            availableDebuggers = listOf("Java")
+        )
+
+        val encoded = json.encodeToString(info)
+
+        assertTrue(encoded.contains("\"pid\":1234"))
+        assertTrue(encoded.contains("\"executableName\":\"java\""))
+        assertTrue(encoded.contains("\"commandLine\":\"java -jar app.jar\""))
+        assertTrue(encoded.contains("\"availableDebuggers\":[\"Java\"]"))
+    }
+
+    @Test
+    fun `ListLocalProcessesResult serialization`() {
+        val result = ListLocalProcessesResult(
+            processes = listOf(
+                AttachableProcessInfo(pid = 42L, executableName = "python", commandLine = "python main.py", availableDebuggers = listOf("Python"))
+            ),
+            totalCount = 1
+        )
+
+        val encoded = json.encodeToString(result)
+
+        assertTrue(encoded.contains("\"totalCount\":1"))
+        assertTrue(encoded.contains("\"executableName\":\"python\""))
+    }
+
+    @Test
+    fun `AttachDebuggerToProcessResult serialization with session`() {
+        val result = AttachDebuggerToProcessResult(
+            status = "attached",
+            message = "Debugger attached to process 1234",
+            session = DebugSessionInfo(
+                id = "sess-99",
+                name = "Attach to java",
+                state = "running",
+                isCurrent = true,
+                processId = 1234L
+            )
+        )
+
+        val encoded = json.encodeToString(result)
+
+        assertTrue(encoded.contains("\"status\":\"attached\""))
+        assertTrue(encoded.contains("\"session\":{"))
+        assertTrue(encoded.contains("\"processId\":1234"))
+    }
+
+    @Test
+    fun `AttachDebuggerToProcessResult serialization with null session`() {
+        val result = AttachDebuggerToProcessResult(
+            status = "attaching",
+            message = "Session initializing...",
+            session = null
+        )
+
+        val encoded = json.encodeToString(result)
+
+        assertTrue(encoded.contains("\"status\":\"attaching\""))
+        assertTrue(encoded.contains("\"session\":null"))
     }
 
     @Test

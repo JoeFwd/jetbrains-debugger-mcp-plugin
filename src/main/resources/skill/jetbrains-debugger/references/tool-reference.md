@@ -8,6 +8,7 @@
 - [Variables](#variables)
 - [Navigation](#navigation)
 - [Evaluation](#evaluation)
+- [Attach to Process](#attach-to-process)
 
 ---
 
@@ -63,6 +64,30 @@ Stop/terminate a debug session.
 | `project_path` | string | No | Project path |
 
 **Returns:** `status` ("stopped"), `sessionId`, `message`
+
+### `list_local_processes`
+List running local processes that the IDE debugger can attach to.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | string | No | Project path (required if multiple projects open) |
+
+**Returns:** `processes[]` (pid, executableName, commandLine, availableDebuggers[]), `totalCount`
+
+**Note:** Only processes supported by at least one registered `XAttachDebuggerProvider` are returned (e.g. JVM processes for Java/Kotlin, Python interpreter processes, etc.).
+
+### `attach_debugger_to_process`
+Attach the IDE debugger to an already-running local process by PID.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | string | No | Project path |
+| `pid` | integer | **Yes** | PID of the process to attach to |
+| `debugger_type` | string | No | Debugger backend to use (e.g. `"Java"`, `"Python"`). Uses first available if omitted. |
+
+**Returns:** `status` ("attached"/"attaching"), `message`, `session` (DebugSessionInfo or null)
+
+**Workflow:** Call `list_local_processes` first to discover the PID and available debugger types, then call this tool. Polls up to 30 seconds for the new `XDebugSession` to initialize.
 
 ### `get_debug_session_status` (PRIMARY INSPECTION TOOL)
 Get comprehensive session state in a single call. **Use this as the first inspection tool when paused.**

@@ -18,6 +18,7 @@ A JetBrains IDE plugin that exposes an **MCP (Model Context Protocol) server**, 
 
 **Debug Session Management**
 - **Start/Stop Sessions** - Launch any run configuration in debug mode
+- **Attach to Process** - Attach the debugger to any already-running local process by PID
 - **Rich Status** - Get comprehensive state in a single call (variables, stack, source context)
 - **Multi-Session Support** - Manage multiple concurrent debug sessions
 
@@ -55,7 +56,7 @@ Unlike manual debugging, this plugin enables:
 - **Rich Context in Single Calls** - Get variables, stack, and source in one request
 - **Programmatic Breakpoint Control** - Set conditional breakpoints with complex expressions
 - **Cross-IDE Compatibility** - Works with any JetBrains IDE that supports XDebugger
-- **22 Comprehensive Tools** - Full debugging capability through MCP
+- **24 Comprehensive Tools** - Full debugging capability through MCP
 - **Configurable Server** - IDE-specific ports with customizable host binding
 
 Perfect for AI-assisted development workflows where you want your assistant to investigate bugs, validate fixes, or explore code behavior autonomously.
@@ -226,7 +227,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 
 ## Available Tools
 
-The plugin provides **22 MCP tools** organized by category:
+The plugin provides **24 MCP tools** organized by category:
 
 ### Run Configuration Tools
 
@@ -243,6 +244,8 @@ The plugin provides **22 MCP tools** organized by category:
 | `start_debug_session` | Start a new debug session for a run configuration |
 | `stop_debug_session` | Stop/terminate a debug session |
 | `get_debug_session_status` | Get comprehensive status (variables, stack, source) in one call |
+| `list_local_processes` | List running local processes the debugger can attach to |
+| `attach_debugger_to_process` | Attach the debugger to an already-running local process by PID |
 
 ### Breakpoint Tools
 

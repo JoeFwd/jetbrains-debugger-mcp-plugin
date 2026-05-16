@@ -1,6 +1,6 @@
 # Debugger MCP Server - Tool Reference
 
-This document provides detailed documentation for all 22 MCP tools available in the JetBrains Debugger MCP Server plugin.
+This document provides detailed documentation for all 24 MCP tools available in the JetBrains Debugger MCP Server plugin.
 
 ## Tool Overview
 
@@ -13,7 +13,7 @@ Tools are organized into categories based on functionality:
 | `list_run_configurations` | List all available run configurations |
 | `execute_run_configuration` | Execute a run configuration in run or debug mode |
 
-### Debug Session Tools (4)
+### Debug Session Tools (6)
 
 | Tool | Description |
 |------|-------------|
@@ -21,6 +21,8 @@ Tools are organized into categories based on functionality:
 | `start_debug_session` | Start a new debug session |
 | `stop_debug_session` | Stop a debug session |
 | `get_debug_session_status` | Get comprehensive session status |
+| `list_local_processes` | List running local processes the debugger can attach to |
+| `attach_debugger_to_process` | Attach the debugger to an already-running local process by PID |
 
 ### Breakpoint Tools (3)
 
@@ -81,6 +83,8 @@ Tools are organized into categories based on functionality:
   - [start_debug_session](#start_debug_session)
   - [stop_debug_session](#stop_debug_session)
   - [get_debug_session_status](#get_debug_session_status)
+  - [list_local_processes](#list_local_processes)
+  - [attach_debugger_to_process](#attach_debugger_to_process)
 - [Breakpoint Tools](#breakpoint-tools)
   - [list_breakpoints](#list_breakpoints)
   - [set_breakpoint](#set_breakpoint)
@@ -468,6 +472,66 @@ Gets comprehensive status of a debug session including variables, stack, and sou
   }
 }
 ```
+
+---
+
+### list_local_processes
+
+Lists running local processes that the IDE debugger can attach to. Only processes with at least one available `XAttachDebuggerProvider` are returned.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | string | No | Project path (required if multiple projects open) |
+
+**Response:**
+
+```json
+{
+  "processes": [
+    {
+      "pid": 12345,
+      "executableName": "java",
+      "commandLine": "java -jar myapp.jar",
+      "availableDebuggers": ["Java"]
+    }
+  ],
+  "totalCount": 1
+}
+```
+
+---
+
+### attach_debugger_to_process
+
+Attaches the IDE debugger to an already-running local process by PID. Uses JetBrains' built-in attach infrastructure. Call `list_local_processes` first to discover PIDs and available debugger types.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | string | No | Project path |
+| `pid` | integer | **Yes** | PID of the process to attach to |
+| `debugger_type` | string | No | Debugger backend (e.g. `"Java"`, `"Python"`). Uses first available if omitted. |
+
+**Response:**
+
+```json
+{
+  "status": "attached",
+  "message": "Debugger attached to process 12345 (java) using Java",
+  "session": {
+    "id": "session-id",
+    "name": "Attach to java",
+    "state": "running",
+    "isCurrent": true,
+    "processId": 12345
+  }
+}
+```
+
+`status` is `"attaching"` (with `session: null`) if the session hasn't fully initialised within 30 seconds.
 
 ---
 
